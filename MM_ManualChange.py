@@ -19,6 +19,9 @@ import time
 import MM_UserPickPattern
 
 colArr = ['cyan','red','yellow','green','blue','white','magenta']
+runningGuess = []
+runningScore = []
+
 #Initial Start up instructions on screen.
 def Initial():
     print("Let's play MasterMind! Read instructions at the top of the code to learn the rules.")
@@ -38,10 +41,11 @@ def GeneratePattern():
 
 #Use for debugging. Designate the computer pattern.
 def KnownPattern():
-    return [3,3,2,2]
+    return [2,2,2,2]
 #Function to compare user input with computer pattern
-def ComparePatterns(c0, c1, c2, c3, user):
+def ComparePatterns(c0,c1,c2,c3,u0,u1,u2,u3):
     comp = [c0,c1,c2,c3] #Array to hold computer pattern
+    user = [u0,u1,u2,u3]
     resultArr = [] #Declare empty array for outputted data.
 
     c = 0
@@ -59,8 +63,19 @@ def ComparePatterns(c0, c1, c2, c3, user):
             resultArr.insert(0,1)       #Add 1 to results array.
         c = c + 1              
 
-    print"          ",resultArr
+    runningScore.append(resultArr)
     return sum(resultArr)           #return sum of the resultsArr (8 = win)
+
+
+def ShowRunningGame():
+    for x in range(50):
+        print
+    i = 0
+    for guess in runningGuess:
+        print colored("0 ",colArr[guess[0]]),colored("0 ",colArr[guess[1]]),colored("0 ",colArr[guess[2]]),colored("0 ",colArr[guess[3]])
+        print "          ",runningScore[i]
+        i = i + 1 
+
 #######################Code Start#########################################################################
 tries = 1
 result = 0
@@ -71,18 +86,23 @@ pattern = GeneratePattern() #Generate Random Pattern
 
 print("time to guess four colors:")
 
-userPick = MM_UserPickPattern.UserPickPattern()
-
-while tries < 10 and result < 8: #gives user 10 tries to get right answer.
-    result = ComparePatterns(pattern[0],pattern[1],pattern[2],pattern[3], userPick)
-    tries = tries + 1 #increment try count.
-    if result < 8:  #Get new user input only if previous guess was wrong.
-        userPick = MM_UserPickPattern.UserPickPattern()
+while tries <= 10 and result < 8: #gives user 10 tries to get right answer.
+    userPick = MM_UserPickPattern.UserPickPattern()
+    runningGuess.append(userPick)
+    result = ComparePatterns(pattern[0],pattern[1],pattern[2],pattern[3], userPick[0],userPick[1],userPick[2],userPick[3])
+    
+    ShowRunningGame()
+    
+    tries = tries + 1 #increment try count.        
 
 if result == 8:  
+    ShowRunningGame()
     print("YOU WIN!!")
+    print
     print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
     
 else:
+    ShowRunningGame()
     print("You lose :(")
+    print
     print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
