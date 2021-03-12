@@ -18,7 +18,7 @@ import random
 import time
 import MM_UserPickPattern
 
-global colArr = ['cyan','red','yellow','green','blue','white','mangenta']
+colArr = ['cyan','red','yellow','green','blue','white','magenta']
 #Initial Start up instructions on screen.
 def Initial():
     print("Let's play MasterMind! Read instructions at the top of the code to learn the rules.")
@@ -59,7 +59,7 @@ def ComparePatterns(c0, c1, c2, c3, user):
             resultArr.insert(0,1)       #Add 1 to results array.
         c = c + 1              
 
-    print("          ",resultArr)
+    print"          ",resultArr
     return sum(resultArr)           #return sum of the resultsArr (8 = win)
 #######################Code Start#########################################################################
 tries = 1
@@ -77,12 +77,12 @@ while tries < 10 and result < 8: #gives user 10 tries to get right answer.
     result = ComparePatterns(pattern[0],pattern[1],pattern[2],pattern[3], userPick)
     tries = tries + 1 #increment try count.
     if result < 8:  #Get new user input only if previous guess was wrong.
-        userPick = input()
+        userPick = MM_UserPickPattern.UserPickPattern()
 
 if result == 8:  
     print("YOU WIN!!")
-    print(pattern, "   ", userPick)
+    print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
     
 else:
     print("You lose :(")
-    print(pattern)
+    print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
