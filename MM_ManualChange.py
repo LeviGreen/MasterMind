@@ -5,11 +5,26 @@
 #                    see MM_ManualChange.pdf
 
 #Rules: 
-#TODO: Write out instructions on how to use.
-#1. Make sure you have termcolor imported onto your system.
-#   From Terminal: $ pip3 install termcolor
-
-
+# 1. Install essential peripherals
+#	a. Install termcolor in terminal
+#	b. Make sure ADC0832 python files are downloaded
+#	c. Wire Raspberry Pi according to diagram in MM_ManualChange.pdf
+# 2. Run program from terminal : python MM_ManualChange.py
+# 3. The Program will show you a short prompt and then the game will begin. 
+# 4. The object of the game is to guess the computer's pattern of four colors in the correct order. 
+#    For the first round, simply guess any four of the colors in any order (duplicates are allowed).
+#    To select the first color in the first collumn, move the red wire on the Raspberry Pi to the corresponding
+#    color and press enter. Once you press enter, the program will read your selection and prompt you to select
+#    the 2nd columns' color. Do this for the 2nd, 3rd, and 4th columns' and press enter.
+# 5. Once you have selected your fourth color and pressed enter, the program will output your selection along
+#    with the result array. The result array will contain 2s and 1s. A "1" means that one of the selected colors
+#    is correct, however, it is in the wrong color. A "2" means that one of the selected colors is both correct
+#    and in the right column. (Note that you must deduce which colors the numbers in the result array are
+#    referring to throughout the game).
+# 6. Use the resulting result array to select the next row of four colors. For your convenience, the game as it
+#    stands is reprinted after each round. 
+# 7. To win, guess the computer's color pattern within 10 rounds.  
+#	
 import RPi.GPIO as GPIO
 import ADC0832
 from decimal import Decimal
