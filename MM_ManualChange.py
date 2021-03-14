@@ -6,9 +6,9 @@
 
 #Rules: 
 # 1. Install essential peripherals
-#	a. Install termcolor in terminal
-#	b. Make sure ADC0832 python files are downloaded
-#	c. Wire Raspberry Pi according to diagram in MM_ManualChange.pdf
+#   a. Install termcolor in terminal
+#   b. Make sure ADC0832 python files are downloaded
+#   c. Wire Raspberry Pi according to diagram in MM_ManualChange.pdf
 # 2. Run program from terminal : python MM_ManualChange.py
 # 3. The Program will show you a short prompt and then the game will begin. 
 # 4. The object of the game is to guess the computer's pattern of four colors in the correct order. 
@@ -24,7 +24,7 @@
 # 6. Use the resulting result array to select the next row of four colors. For your convenience, the game as it
 #    stands is reprinted after each round. 
 # 7. To win, guess the computer's color pattern within 10 rounds.  
-#	
+#   
 import RPi.GPIO as GPIO
 import ADC0832
 from decimal import Decimal
@@ -91,7 +91,18 @@ def ShowRunningGame():
         print "          ",runningScore[i]
         i = i + 1 
 
+#Method that runs at the end of game; either prints you won or lost depending if you won...or...lost.
+def EndGame(result,pattern):
+    ShowRunningGame()
+    if result == 8:  
+        print("YOU WIN!!")        
+    else:
+        print("You lose :(")
+    print
+    print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
+
 #######################Code Start#########################################################################
+    
 tries = 1
 result = 0
 
@@ -110,14 +121,8 @@ while tries <= 10 and result < 8: #gives user 10 tries to get right answer.
     
     tries = tries + 1 #increment try count.        
 
-if result == 8:  
-    ShowRunningGame()
-    print("YOU WIN!!")
-    print
-    print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
+
+EndGame(result,pattern)
+
+
     
-else:
-    ShowRunningGame()
-    print("You lose :(")
-    print
-    print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
