@@ -38,7 +38,16 @@ runningGuess = []
 runningScore = []
 
 #Initial Start up instructions on screen.
-def Initial():
+def StartGame():
+    for x in range(50):
+        print
+    
+    global runningGuess #clear rg and rs arrays for new game
+    global runningScore
+
+    runningGuess = []
+    runningScore = []
+    
     print("Let's play MasterMind! Read instructions at the top of the code to learn the rules.")
     time.sleep(1)
     print("Generating Pattern...")
@@ -58,6 +67,9 @@ def KnownPattern():
 
 #Function to compare user input with computer pattern
 def ComparePatterns(c0,c1,c2,c3,u0,u1,u2,u3):
+    global runningGuess
+    global runningScore
+    
     comp = [c0,c1,c2,c3] #Array to hold computer pattern
     user = [u0,u1,u2,u3]
     resultArr = [] #Declare empty array for outputted data.
@@ -78,6 +90,9 @@ def ComparePatterns(c0,c1,c2,c3,u0,u1,u2,u3):
 
 #Prints the game as it stands to the terminal
 def ShowRunningGame():
+    global runningGuess
+    global runningScore
+    
     for x in range(50):
         print
     i = 0
@@ -97,23 +112,35 @@ def EndGame(result,pattern):
     print colored('0 ',colArr[pattern[0]]),colored('0 ',colArr[pattern[1]]),colored('0 ',colArr[pattern[2]]),colored('0 ',colArr[pattern[3]])
 
 #######################Code Start#########################################################################
-    
-tries = 0
-result = 0
 
-Initial()
-pattern = GeneratePattern() #Generate Random Pattern
-#pattern = KnownPattern()
-print("time to guess four colors:")
+def loop():
+    playAgain = "y"
+    while playAgain == "y":
 
-while tries < 10 and result < 8: #gives user 10 tries to get right answer.
-    userPick = MM_UserPickPattern.UserPickPattern() #prompt user to pick another pattern
-    runningGuess.append(userPick) #update r.g. array
-    result = ComparePatterns(pattern[0],pattern[1],pattern[2],pattern[3], userPick[0],userPick[1],userPick[2],userPick[3])
-    ShowRunningGame()
-    tries = tries + 1 #increment try count.
+        tries = 0
+        result = 0
 
-EndGame(result,pattern)
+        StartGame()
+        pattern = GeneratePattern() #Generate Random Pattern
+        #pattern = KnownPattern()
+        print("time to guess four colors:")
 
+        while tries < 10 and result < 8: #gives user 10 tries to get right answer.
+            userPick = MM_UserPickPattern.UserPickPattern() #prompt user to pick another pattern
+            runningGuess.append(userPick) #update r.g. array
+            result = ComparePatterns(pattern[0],pattern[1],pattern[2],pattern[3], userPick[0],userPick[1],userPick[2],userPick[3])
+            ShowRunningGame()
+            tries = tries + 1 #increment try count.
 
-    
+        EndGame(result,pattern)
+        print
+        playAgain = raw_input("Press 'y' and enter to play again or just enter to quit: ")
+
+##########################################################################################################
+
+if __name__ == '__main__':
+    try:
+        loop()
+    except KeyboardInterrupt: 
+        ADC0832.destroy()
+        print(' U L8R !')
